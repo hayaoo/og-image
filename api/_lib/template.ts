@@ -3,6 +3,7 @@ import { readFileSync } from 'fs';
 import marked from 'marked';
 import { sanitizeHtml } from './sanitizer';
 import { ParsedRequest } from './types';
+import { Logo } from './svg';
 const twemoji = require('twemoji');
 const twOptions = { folder: 'svg', ext: '.svg' };
 const emojify = (text: string) => twemoji.parse(text, twOptions);
@@ -22,36 +23,24 @@ function getCss(theme: string, fontSize: string) {
         radial = 'dimgray';
     }
     return `
+    /* noto-sans-jp-regular - latin */
     @font-face {
-        font-family: 'Inter';
-        font-style:  normal;
-        font-weight: normal;
-        src: url(data:font/woff2;charset=utf-8;base64,${rglr}) format('woff2');
-    }
-
-    @font-face {
-        font-family: 'Inter';
-        font-style:  normal;
-        font-weight: bold;
-        src: url(data:font/woff2;charset=utf-8;base64,${bold}) format('woff2');
-    }
-
-    @font-face {
-        font-family: 'Vera';
+        font-family: 'Noto Sans JP';
         font-style: normal;
-        font-weight: normal;
-        src: url(data:font/woff2;charset=utf-8;base64,${mono})  format("woff2");
-      }
+        font-weight: 400;
+        src: url('./_fonts/NotoSansJP-Bold.woff') format('woff');
+    }
 
     body {
-        background: ${background};
-        background-image: radial-gradient(circle at 25px 25px, ${radial} 2%, transparent 0%), radial-gradient(circle at 75px 75px, ${radial} 2%, transparent 0%);
-        background-size: 100px 100px;
+        background: #FFF;
+        background-image: url('/mesh-gradient.png');
+        background-size: cover;
         height: 100vh;
         display: flex;
-        text-align: center;
         align-items: center;
         justify-content: center;
+        margin: 0;
+        padding: 100px;
     }
 
     code {
@@ -66,11 +55,8 @@ function getCss(theme: string, fontSize: string) {
     }
 
     .logo-wrapper {
-        display: flex;
-        align-items: center;
-        align-content: center;
-        justify-content: center;
-        justify-items: center;
+        width: 100%;
+        text-align: right;
     }
 
     .logo {
@@ -84,7 +70,13 @@ function getCss(theme: string, fontSize: string) {
     }
 
     .spacer {
-        margin: 150px;
+        padding: 90px 100px 80px;
+        display: flex;
+        flex-direction: column;
+        align-items: start;
+        justify-content: center;
+        background: #fff;
+        borderRadius: 1em;
     }
 
     .emoji {
@@ -95,11 +87,12 @@ function getCss(theme: string, fontSize: string) {
     }
     
     .heading {
-        font-family: 'Inter', sans-serif;
-        font-size: ${sanitizeHtml(fontSize)};
-        font-style: normal;
-        color: ${foreground};
-        line-height: 1.8;
+        font-family: 'Noto Sans JP', sans-serif;
+        font-size: 80px;
+        color: #333;
+        letter-spacing: 0.04em;
+        line-height: 1.5;
+        width: 90%;
     }`;
 }
 
@@ -114,17 +107,14 @@ export function getHtml(parsedReq: ParsedRequest) {
         ${getCss(theme, fontSize)}
     </style>
     <body>
-        <div>
-            <div class="spacer">
-            <div class="logo-wrapper">
-                ${images.map((img, i) =>
-                    getPlusSign(i) + getImage(img, widths[i], heights[i])
-                ).join('')}
-            </div>
-            <div class="spacer">
-            <div class="heading">${emojify(
+        <div class="spacer">
+            <div class="heading">
+            ${emojify(
                 md ? marked(text) : sanitizeHtml(text)
             )}
+            </div>
+            <div class="logoWrapper">
+                <Logo />
             </div>
         </div>
     </body>
