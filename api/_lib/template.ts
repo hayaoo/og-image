@@ -3,32 +3,22 @@ import { readFileSync } from 'fs';
 import marked from 'marked';
 import { sanitizeHtml } from './sanitizer';
 import { ParsedRequest } from './types';
-import { Logo } from './svg';
+// import { Logo } from './svg';
 const twemoji = require('twemoji');
 const twOptions = { folder: 'svg', ext: '.svg' };
 const emojify = (text: string) => twemoji.parse(text, twOptions);
 
-const rglr = readFileSync(`${__dirname}/../_fonts/Inter-Regular.woff2`).toString('base64');
-const bold = readFileSync(`${__dirname}/../_fonts/Inter-Bold.woff2`).toString('base64');
-const mono = readFileSync(`${__dirname}/../_fonts/Vera-Mono.woff2`).toString('base64');
+const rglr = readFileSync(`${__dirname}/../_fonts/NotoSansJP-Bold.woff`).toString('base64');
 
-function getCss(theme: string, fontSize: string) {
-    let background = 'white';
-    let foreground = 'black';
-    let radial = 'lightgray';
+function getCss() {
 
-    if (theme === 'dark') {
-        background = 'black';
-        foreground = 'white';
-        radial = 'dimgray';
-    }
     return `
     /* noto-sans-jp-regular - latin */
     @font-face {
         font-family: 'Noto Sans JP';
         font-style: normal;
         font-weight: 400;
-        src: url('./_fonts/NotoSansJP-Bold.woff') format('woff');
+        src: url(data:font/woff;charset=utf-8;base64,${rglr}) format('woff');
     }
 
     body {
@@ -97,14 +87,14 @@ function getCss(theme: string, fontSize: string) {
 }
 
 export function getHtml(parsedReq: ParsedRequest) {
-    const { text, theme, md, fontSize, images, widths, heights } = parsedReq;
+    const { text, md } = parsedReq;
     return `<!DOCTYPE html>
 <html>
     <meta charset="utf-8">
     <title>Generated Image</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
-        ${getCss(theme, fontSize)}
+        ${getCss()}
     </style>
     <body>
         <div class="spacer">
@@ -114,23 +104,19 @@ export function getHtml(parsedReq: ParsedRequest) {
             )}
             </div>
             <div class="logoWrapper">
-                <Logo />
+                hoge
             </div>
         </div>
     </body>
 </html>`;
 }
 
-function getImage(src: string, width ='auto', height = '225') {
-    return `<img
-        class="logo"
-        alt="Generated Image"
-        src="${sanitizeHtml(src)}"
-        width="${sanitizeHtml(width)}"
-        height="${sanitizeHtml(height)}"
-    />`
-}
-
-function getPlusSign(i: number) {
-    return i === 0 ? '' : '<div class="plus">+</div>';
-}
+// function getImage(src: string, width ='auto', height = '225') {
+//     return `<img
+//         class="logo"
+//         alt="Generated Image"
+//         src="${sanitizeHtml(src)}"
+//         width="${sanitizeHtml(width)}"
+//         height="${sanitizeHtml(height)}"
+//     />`
+// }
