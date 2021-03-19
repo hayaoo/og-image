@@ -22,7 +22,7 @@ function getCss() {
         align-items: center;
         justify-content: center;
         margin: 0;
-        padding: 100px;
+        padding: 8vh;
         font-family: 'M PLUS 1p', 'Inter', sans-serif;
     }
 
@@ -43,7 +43,7 @@ function getCss() {
     }
 
     .logo {
-        margin: 0 75px;
+        margin: 0 5vh;
     }
 
     .plus {
@@ -53,7 +53,7 @@ function getCss() {
     }
 
     .spacer {
-        padding: 90px 100px 80px;
+        padding: 9vh 10vh 8vh;
         display: flex;
         flex-direction: column;
         align-items: start;
