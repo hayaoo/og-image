@@ -8,18 +8,10 @@ const twemoji = require('twemoji');
 const twOptions = { folder: 'svg', ext: '.svg' };
 const emojify = (text: string) => twemoji.parse(text, twOptions);
 
-const rglr = readFileSync(`${__dirname}/../_fonts/NotoSansJP-Bold.woff`).toString('base64');
-
 function getCss() {
 
     return `
-    /* noto-sans-jp-regular - latin */
-    @font-face {
-        font-family: 'Noto Sans JP';
-        font-style: normal;
-        font-weight: 400;
-        src: url(data:font/woff;charset=utf-8;base64,${rglr}) format('woff');
-    }
+    @import url('https://fonts.googleapis.com/css?family=M+PLUS+1p');
 
     body {
         background: #FFF;
@@ -31,6 +23,7 @@ function getCss() {
         justify-content: center;
         margin: 0;
         padding: 100px;
+        font-family: 'M PLUS 1p', 'Inter', sans-serif;
     }
 
     code {
@@ -77,7 +70,7 @@ function getCss() {
     }
     
     .heading {
-        font-family: 'Noto Sans JP', sans-serif;
+        font-family: 'M PLUS 1p', 'Inter', sans-serif;
         font-size: 80px;
         color: #333;
         letter-spacing: 0.04em;
